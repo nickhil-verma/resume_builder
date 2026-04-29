@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #f5f2ed;
+  --color-foreground: #2d2d2d;
+  --color-card: #ffffff;
+  --color-primary: #8b5e34;
+  --color-accent: #2d3e40;
+  --color-muted: #737373;
+  --color-border: #e5e0d8;
+  
+  --font-sans: 'DM Sans', var(--font-dm-sans), sans-serif;
+  --font-heading: 'Instrument Serif', var(--font-instrument), serif;
+}
+
+:root {
+  --background: #f5f2ed;
+  --foreground: #2d2d2d;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    min-height: 100vh;
+    @apply antialiased;
+  }
+  
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer components {
+  .flat-card {
+    @apply bg-card border border-border rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)];
+  }
+  
+  .btn-primary {
+    @apply px-6 py-2.5 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 active:scale-[0.98] transition-all duration-200 shadow-sm;
+  }
+  
+  .btn-outline {
+    @apply px-6 py-2.5 rounded-lg border border-border bg-white text-foreground hover:bg-slate-50 transition-all duration-200 shadow-sm;
+  }
+  
+  .input-flat {
+    @apply w-full bg-white border border-border rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm;
+  }
+}
