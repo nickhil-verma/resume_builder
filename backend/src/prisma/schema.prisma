@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id           String           @id @default(uuid())
+  name         String
+  email        String           @unique
+  password     String
+  linkedinUrl  String?
+  githubUrl    String?
+  createdAt    DateTime         @default(now())
+  resumes      Resume[]
+  applications JobApplication[]
+  chatSessions ChatSession[]
+}
+
+model Resume {
+  id              String           @id @default(uuid())
+  userId          String
+  user            User             @relation(fields: [userId], references: [id])
+  title           String
+  jobTitle        String?
+  jobDescription  String?          @db.Text
+  tailoredSummary String?          @db.Text
+  template        String           @default("modern")
+  personalInfo    Json
+  education       Json
+  skills          String[]
+  projects        Json
+  experience      Json
+  achievements    Json?            // AI parsed achievements
+  certifications  Json?            // AI parsed certifications
+  summary         String           @db.Text
+  embeddings      Json?            // For future semantic search/matching
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  applications    JobApplication[]
+}
+
+model JobApplication {
+  id               String   @id @default(uuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  resumeId         String
+  resume           Resume   @relation(fields: [resumeId], references: [id])
+  companyName      String
+  jobTitle         String
+  jobDescription   String   @db.Text
+  atsScore         Float
+  matchPercentage  Float
+  notes            String?  @db.Text
+  appliedAt        DateTime @default(now())
+}
+
+model ChatSession {
+  id        String        @id @default(uuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id])
+  title     String?
+  messages  ChatMessage[]
+  createdAt DateTime      @default(now())
+}
+
+model ChatMessage {
+  id        String      @id @default(uuid())
+  sessionId String
+  session   ChatSession @relation(fields: [sessionId], references: [id])
+  role      String      // "user" or "assistant"
+  content   String      @db.Text
+  createdAt DateTime    @default(now())
+}

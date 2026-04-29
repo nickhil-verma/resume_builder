@@ -1,0 +1,26 @@
+# Dependencies
+**/node_modules/
+
+# Next.js
+**/.next/
+**/out/
+
+# Environment
+**/.env
+**/.env.*
+!**/.env.example
+
+# Logs
+**/*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Prisma
+**/prisma/*.db
+**/prisma/*.db-journal
+
+# Production
+**/build/
+**/dist/
